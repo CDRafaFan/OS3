@@ -12,7 +12,7 @@ void* countA()
     long long int counter=pow(2,32);
     struct timespec one,two;
     clock_gettime(CLOCK_REALTIME,&one);
-    for(int i=1;i<counter;i++)
+    for(long long int i=1;i<counter;i++)
     {
         //printf("Hello world");
     }
@@ -26,7 +26,7 @@ void* countB()
     long long int counter=pow(2,32);
     struct timespec one,two;
     clock_gettime(CLOCK_REALTIME,&one);
-    for(int i=1;i<counter;i++)
+    for(long long int i=1;i<counter;i++)
     {
         //printf("Hello world");
     }
@@ -40,7 +40,7 @@ void* countC()
     long long int counter=pow(2,32);
     struct timespec one,two;
     clock_gettime(CLOCK_REALTIME,&one);
-    for(int i=1;i<counter;i++)
+    for(long long int i=1;i<counter;i++)
     {
         //printf("Hello world");
     }
