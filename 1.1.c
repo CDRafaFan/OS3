@@ -53,8 +53,8 @@ int main()
 {
     pthread_t t1,t2,t3;
     pthread_create(&t1,NULL,&countA,NULL);
-    pthread_create(&t1,NULL,&countB,NULL);
-    pthread_create(&t1,NULL,&countC,NULL);
+    pthread_create(&t2,NULL,&countB,NULL);
+    pthread_create(&t3,NULL,&countC,NULL);
     struct sched_param pri;
     pri.sched_priority=0;
     pthread_setschedparam(t1,SCHED_OTHER,&pri);
