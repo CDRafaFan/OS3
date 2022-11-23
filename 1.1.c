@@ -9,7 +9,7 @@
 #include <math.h>
 void* countA()
 {
-    long long int counter=pow(2,32);int a=0;
+    long long int counter=pow(2,32);long long int a=0;
     for(long long int i=1;i<counter;i++)
     {
         a++;
@@ -18,8 +18,8 @@ void* countA()
 }
 void* countB()
 {
-    long long int counter=pow(2,32);int b=0;
-    for(long long int i=1;i<counter;i++)
+    long long int counter=pow(2,32);long long int b=0;
+    for(long long int n=1;n<counter;n++)
     {
         b++;
     }
@@ -27,8 +27,8 @@ void* countB()
 }
 void* countC()
 {
-    long long int counter=pow(2,32);int c=0;
-    for(long long int i=1;i<counter;i++)
+    long long int counter=pow(2,32);long long int c=0;
+    for(long long int u=1;u<counter;u++)
     {
         c++;
     }
