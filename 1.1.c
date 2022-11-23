@@ -26,7 +26,7 @@ void* countA()
 {
     struct timespec one,two;
     clock_gettime(CLOCK_REALTIME,&one);
-
+    nice(0);
     long long int x = power();
     long long int i=0;
     while(i<x)
@@ -81,7 +81,7 @@ int main()
 
 
     struct sched_param pri;
-    pri.sched_priority=0;
+
     pthread_setschedparam(t1,SCHED_OTHER,&pri);
 
     struct sched_param pri2;
