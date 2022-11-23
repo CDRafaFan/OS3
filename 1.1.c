@@ -9,8 +9,8 @@
 #include <math.h>
 void* countA()
 {
-    long long int counter=pow(2,32);long long int a=0;
-    for(long long int i=1;i<counter;i++)
+    long long int a=0;
+    for(long long int i=1;i<4294967296;i++)
     {
         a++;
     }
@@ -18,8 +18,8 @@ void* countA()
 }
 void* countB()
 {
-    long long int counter=pow(2,32);long long int b=0;
-    for(long long int n=1;n<counter;n++)
+    long long int b=0;
+    for(long long int n=1;n<4294967296;n++)
     {
         b++;
     }
@@ -28,7 +28,7 @@ void* countB()
 void* countC()
 {
     long long int counter=pow(2,32);long long int c=0;
-    for(long long int u=1;u<counter;u++)
+    for(long long int f=1;f<4294967296;f++)
     {
         c++;
     }
