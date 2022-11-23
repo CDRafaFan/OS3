@@ -27,7 +27,7 @@ void* countB()
 }
 void* countC()
 {
-    long long int counter=pow(2,32);long long int c=0;
+    long long int c=0;
     for(long long int f=1;f<4294967296;f++)
     {
         c++;
