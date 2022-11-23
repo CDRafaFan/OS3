@@ -7,65 +7,97 @@
 #include <libgen.h>
 #include <pthread.h>
 #include <math.h>
+
+long long int power(){
+    long long int x = 1;
+    for(int i=1;i<=32;i++){
+        x = x*2;
+    }
+    return x;
+}
+
+double subtract_time(struct timespec start, struct timespec end){
+   
+    return (((end.tv_sec - start.tv_sec) * 1000000000) +(end.tv_nsec - start.tv_nsec))/1000000000.0;
+
+}
+
 void* countA()
 {
-    long long int a=0;
-    for(long long int i=1;i<4294967296;i++)
+    struct timespec one,two;
+    clock_gettime(CLOCK_REALTIME,&one);
+
+    long long int x = power();
+    long long int i=0;
+    while(i<x)
     {
-        a++;
+        i++;
     }
+    clock_gettime(CLOCK_REALTIME,&two);
+    double timea = subtract_time(one,two);
+    printf("Time taken by countA() %lf\n",timea);
     return NULL;
 }
 void* countB()
 {
-    long long int b=0;
-    for(long long int n=1;n<4294967296;n++)
+    struct timespec three,four;
+    clock_gettime(CLOCK_REALTIME,&three);
+    long long int y = power();
+    long long int n=0;
+    while(n<y)
     {
-        b++;
+        n++;
     }
+    clock_gettime(CLOCK_REALTIME,&four);
+    double timeb = subtract_time(three,four);
+    printf("Time taken by countB() %lf\n",timeb);
     return NULL;
 }
 void* countC()
-{
-    long long int c=0;
-    for(long long int f=1;f<4294967296;f++)
+{   
+    struct timespec five,six;
+    clock_gettime(CLOCK_REALTIME,&five);
+    long long int f=0;
+    long long int z = power();
+    while(f<z)
     {
-        c++;
+        f++;
     }
+    clock_gettime(CLOCK_REALTIME,&six);
+    double timec = subtract_time(five,six);
+    printf("Time taken by countC() %lf\n",timec);
     return NULL;
 }
 int main()
 {
+    
     pthread_t t1,t2,t3;
-    struct timespec one,two;
-    clock_gettime(CLOCK_REALTIME,&one);
+   
     pthread_create(&t1,NULL,&countA,NULL);
-    struct timespec three,four;
-    clock_gettime(CLOCK_REALTIME,&three);
+
     pthread_create(&t2,NULL,&countB,NULL);
-    struct timespec five,six;
-    clock_gettime(CLOCK_REALTIME,&five);
+   
     pthread_create(&t3,NULL,&countC,NULL);
+
+
     struct sched_param pri;
     pri.sched_priority=0;
     pthread_setschedparam(t1,SCHED_OTHER,&pri);
+
     struct sched_param pri2;
     pri2.sched_priority=20;
     pthread_setschedparam(t2,SCHED_RR,&pri2);
+    
     struct sched_param pri3;
     pri3.sched_priority=30;
     pthread_setschedparam(t3,SCHED_FIFO,&pri3);
+
+
     pthread_join(t1,NULL);
-    clock_gettime(CLOCK_REALTIME,&two);
-    double timea = (((two.tv_sec - one.tv_sec) * 1000000000) +(two.tv_nsec - one.tv_nsec));
-    printf("Time taken by countA() %lf\n",timea/1000000000.0);
+
     pthread_join(t2,NULL);
-    clock_gettime(CLOCK_REALTIME,&four);
-    double timeb = (((four.tv_sec - three.tv_sec) * 1000000000) +(four.tv_nsec - three.tv_nsec));
-    printf("Time taken by countB() %lf\n",timeb/1000000000.0);
+ 
     pthread_join(t3,NULL);
-    clock_gettime(CLOCK_REALTIME,&six);
-    double timec = (((six.tv_sec - five.tv_sec) * 1000000000) +(six.tv_nsec - five.tv_nsec));
-    printf("Time taken by countC() %lf\n",timec/1000000000.0);
+  
     return 0;
 }
