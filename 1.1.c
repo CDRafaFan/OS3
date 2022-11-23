@@ -59,10 +59,10 @@ int main()
     pri.sched_priority=0;
     pthread_setschedparam(t1,SCHED_OTHER,&pri);
     struct sched_param pri2;
-    pri.sched_priority=20;
+    pri2.sched_priority=20;
     pthread_setschedparam(t2,SCHED_RR,&pri2);
     struct sched_param pri3;
-    pri.sched_priority=30;
+    pri3.sched_priority=30;
     pthread_setschedparam(t3,SCHED_FIFO,&pri3);
     pthread_join(t1,NULL);
     pthread_join(t2,NULL);
