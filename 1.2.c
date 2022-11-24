@@ -69,7 +69,7 @@ int main()
             if(last==0)
             {
                 struct sched_param var3;
-                var3.sched_priority=20;
+                var3.sched_priority=10;
                 sched_setscheduler(0,SCHED_FIFO,&var3);
                 execl("/bin/bash","sh","process.sh",NULL);
             }
