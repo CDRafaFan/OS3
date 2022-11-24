@@ -4,6 +4,8 @@
 #include <time.h>
 #include <sys/wait.h>
 #include <string.h>
+#include <sched.h>
+#include <sys/types.h>
 #define billion 1000000000.0;
 int main()
 {
