@@ -1,84 +1,97 @@
-#include <stdbool.h>
-#include <stdio.h>
+#include<stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/wait.h>
 #include <unistd.h>
-#include <libgen.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
 #include <pthread.h>
-#include <math.h>
 
-void* countA()
-{
-    struct timespec one,two;
-    clock_gettime(CLOCK_REALTIME,&one);
-    long long int a=0;
-    for(long long int i=0;i<4294967296;i++)
-    {
-        a++;
-    }
-    clock_gettime(CLOCK_REALTIME,&two);
-    double timea = (((two.tv_sec - one.tv_sec) * 1000000000) +(two.tv_nsec - one.tv_nsec))/1000000000.0;
-    printf("Time taken by countA() %lf\n",timea);
-    return NULL;
+void *countA() {
+  struct timespec start1, end1;
+  clock_gettime(CLOCK_REALTIME, &start1);
+  nice(0);
+  unsigned long int countA = 0;
+  for (unsigned long int i = 1; i <= 4294967296; i++) {
+    countA++;
+  }
+  clock_gettime(CLOCK_REALTIME, &end1);
+  double timeA = (((end1.tv_sec - start1.tv_sec) * 1000000000) +
+                       (end1.tv_nsec - start1.tv_nsec)) /
+                      1000000000.0;
+  printf("Time taken by ThreadA: %lf \n", timeA);
+  return NULL;
 }
-void* countB()
-{
-    struct timespec three,four;
-    clock_gettime(CLOCK_REALTIME,&three);
-    long long int b=0;
-    for(long long int n=0;n<4294967296;n++)
-    {
-        b++;
-    }
-    clock_gettime(CLOCK_REALTIME,&four);
-    double timeb = (((four.tv_sec - three.tv_sec) * 1000000000) +(four.tv_nsec - three.tv_nsec))/1000000000.0;
-    printf("Time taken by countB() %lf\n",timeb);
-    return NULL;
+
+void *countB() {
+  struct timespec start2, end2;
+  clock_gettime(CLOCK_REALTIME, &start2);
+  unsigned long int countB = 0;
+  for (unsigned long int i = 1; i <= 4294967296; i++) {
+    countB++;
+  }
+  clock_gettime(CLOCK_REALTIME, &end2);
+  double timeB = (((end2.tv_sec - start2.tv_sec) * 1000000000) +
+                       (end2.tv_nsec - start2.tv_nsec)) /
+                      1000000000.0;
+  printf("Time taken by ThreadB: %lf \n", timeB);
+  return NULL;
 }
-void* countC()
-{   
-    struct timespec five,six;
-    clock_gettime(CLOCK_REALTIME,&five);
-    long long int c=0;
-    for(long long int f=0;f<4294967296;f++)
-    {
-        c++;
-    }
-    clock_gettime(CLOCK_REALTIME,&six);
-    double timec = (((six.tv_sec - five.tv_sec) * 1000000000) +(six.tv_nsec - five.tv_nsec))/1000000000.0;
-    printf("Time taken by countC() %lf\n",timec);
-    return NULL;
+
+void *countC() {
+  struct timespec start3, end3;
+  clock_gettime(CLOCK_REALTIME, &start3);
+  unsigned long int countC = 0;
+  for (unsigned long int i = 1; i <= 4294967296; i++) {
+    countC++;
+  }
+  clock_gettime(CLOCK_REALTIME, &end3);
+  double timeC = (((end3.tv_sec - start3.tv_sec) * 1000000000) +
+                       (end3.tv_nsec - start3.tv_nsec)) /
+                      1000000000.0;
+  printf("Time taken by ThreadC: %lf \n", timeC);
+  return NULL;
 }
-int main()
-{
-    pthread_t t1,t2,t3;
-   
-    pthread_create(&t1,NULL,&countA,NULL);
 
-    pthread_create(&t2,NULL,&countB,NULL);
-   
-    pthread_create(&t3,NULL,&countC,NULL);
+int main() {
 
+  pthread_t tid1, tid2, tid3;
 
-    struct sched_param pri;
-    pri.sched_priority=0;
-    pthread_setschedparam(t1,SCHED_OTHER,&pri);
+  int a = pthread_create(&tid1, NULL, &countA, NULL);
+  if (a == -1) {
+    printf("Error in pthread_create() : [%s]", strerror(a));
+  }
+  int b = pthread_create(&tid2, NULL, &countB, NULL);
+  if (b == -1) {
+    printf("Error in pthread_create() : [%s]", strerror(b));
+  }
+  int c = pthread_create(&tid3, NULL, &countC, NULL);
+  if (c == -1) {
+    printf("Error in pthread_create() : [%s]", strerror(c));
+  }
 
-    struct sched_param pri2;
-    pri2.sched_priority=20;
-    pthread_setschedparam(t2,SCHED_RR,&pri2);
-    
-    struct sched_param pri3;
-    pri3.sched_priority=30;
-    pthread_setschedparam(t3,SCHED_FIFO,&pri3);
+  // set scheduling policy
+  int policy1 = SCHED_OTHER;
+  struct sched_param param1;
+  param1.sched_priority = 0;
+  pthread_setschedparam(tid1, policy1, &param1);
 
+  // set scheduling policy for thread 2  SCHED_RR
+  int policy2 = SCHED_RR;
+  struct sched_param param2;
+  param2.sched_priority = 10;
+  pthread_setschedparam(tid2, policy2, &param2);
 
-    pthread_join(t1,NULL);
+  // set scheduling policy for thread 3  SCHED_FIFO
+  int policy3 = SCHED_FIFO;
+  struct sched_param param3;
+  param3.sched_priority = 20;
+  pthread_setschedparam(tid3, policy3, &param3);
 
-    pthread_join(t2,NULL);
- 
-    pthread_join(t3,NULL);
-  
-    return 0;
+  // pthread_join
+  pthread_join(tid1, NULL);
+  pthread_join(tid2, NULL);
+  pthread_join(tid3, NULL);
+
+  return 0;
 }
