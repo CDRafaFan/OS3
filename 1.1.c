@@ -64,10 +64,10 @@ int main() {
   param1.sched_priority = 0;
   pthread_setschedparam(tid1, SCHED_OTHER, &param1);
   struct sched_param param2;
-  param2.sched_priority = 10;
+  param2.sched_priority = 20;
   pthread_setschedparam(tid2, SCHED_RR, &param2);
   struct sched_param param3;
-  param3.sched_priority = 10;
+  param3.sched_priority = 50;
   pthread_setschedparam(tid3, SCHED_FIFO, &param3);
   pthread_join(tid1, NULL);
   pthread_join(tid2, NULL);
