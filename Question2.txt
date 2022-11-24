@@ -1,1 +1,7 @@
-# OS3
+OS Assignment 2
+
+Question 2:-
+1.Here, we have written a custom command in syscall_64.tbl.
+2.After this,I have made a file that contains a function to copy a 2D array and it does the said job using a syscall which calls the implemented syscall from kernel.
+3.The syscall is implemented using copy_from_user() and copy_to_user().
+4.Then, I have generated a diff file which shows the kernel_2d_memcpy() only in the newly compiled kernel.
