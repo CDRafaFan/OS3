@@ -27,13 +27,6 @@ int main()
     }
     else
     {
-        wait(NULL);
-        clock_gettime(CLOCK_REALTIME, &two);
-        double timea;
-        timea=(two.tv_sec-one.tv_sec)*billion;
-        timea+=(two.tv_nsec-one.tv_nsec);
-        timea/=billion;
-        printf("Time taken by process A %lf",timea);
         struct timespec pop1,pop2;
         clock_gettime(CLOCK_REALTIME, &pop1);
         int again=fork();
@@ -51,13 +44,6 @@ int main()
         }
         else
         {
-            wait(NULL);
-            clock_gettime(CLOCK_REALTIME, &pop2);
-            double timeb;
-            timeb=(pop2.tv_sec-pop1.tv_sec)*billion;
-            timeb+=(pop2.tv_nsec-pop1.tv_nsec);
-            timeb/=billion;
-            printf("Time taken by process B %lf",timeb);
             struct timespec gov,har;
             clock_gettime(CLOCK_REALTIME, &gov);
             int last=fork();
@@ -82,6 +68,20 @@ int main()
                 timec+=(har.tv_nsec-gov.tv_nsec);
                 timec/=billion;
                 printf("Time taken by process C %lf",timec);
+                 wait(NULL);
+                clock_gettime(CLOCK_REALTIME, &pop2);
+                double timeb;
+                timeb=(pop2.tv_sec-pop1.tv_sec)*billion;
+                timeb+=(pop2.tv_nsec-pop1.tv_nsec);
+                timeb/=billion;
+                printf("Time taken by process B %lf",timeb);
+                wait(NULL);
+                clock_gettime(CLOCK_REALTIME, &two);
+                double timea;
+                timea=(two.tv_sec-one.tv_sec)*billion;
+                timea+=(two.tv_nsec-one.tv_nsec);
+                timea/=billion;
+                printf("Time taken by process A %lf",timea);
             }
         }
     }
