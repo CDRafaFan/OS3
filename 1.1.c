@@ -57,38 +57,18 @@ int main() {
 
   pthread_t tid1, tid2, tid3;
 
-  int a = pthread_create(&tid1, NULL, &countA, NULL);
-  if (a == -1) {
-    printf("Error in pthread_create() : [%s]", strerror(a));
-  }
-  int b = pthread_create(&tid2, NULL, &countB, NULL);
-  if (b == -1) {
-    printf("Error in pthread_create() : [%s]", strerror(b));
-  }
-  int c = pthread_create(&tid3, NULL, &countC, NULL);
-  if (c == -1) {
-    printf("Error in pthread_create() : [%s]", strerror(c));
-  }
-
-  // set scheduling policy
-  int policy1 = SCHED_OTHER;
+  pthread_create(&tid1, NULL, &countA, NULL);
+  pthread_create(&tid2, NULL, &countB, NULL);
+  pthread_create(&tid3, NULL, &countC, NULL);
   struct sched_param param1;
   param1.sched_priority = 0;
-  pthread_setschedparam(tid1, policy1, &param1);
-
-  // set scheduling policy for thread 2  SCHED_RR
-  int policy2 = SCHED_RR;
+  pthread_setschedparam(tid1, SCHED_OTHER, &param1);
   struct sched_param param2;
-  param2.sched_priority = 10;
-  pthread_setschedparam(tid2, policy2, &param2);
-
-  // set scheduling policy for thread 3  SCHED_FIFO
-  int policy3 = SCHED_FIFO;
+  param2.sched_priority = 20;
+  pthread_setschedparam(tid2, SCHED_RR, &param2);
   struct sched_param param3;
-  param3.sched_priority = 20;
-  pthread_setschedparam(tid3, policy3, &param3);
-
-  // pthread_join
+  param3.sched_priority = 50;
+  pthread_setschedparam(tid3, SCHED_FIFO, &param3);
   pthread_join(tid1, NULL);
   pthread_join(tid2, NULL);
   pthread_join(tid3, NULL);
