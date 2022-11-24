@@ -1,0 +1,11 @@
+OS Assignment 2
+
+Question 1.1:-
+1.Creates 3 threads individually based on the scheduling policies SCHED_OTHER,SCHED_RR,SCHED_FIFO and also using schedparam function in c.
+2.Then, they are joined individually one after the other.
+3.We also set a schedule parameter and start the clock and call necessary functions.
+4.Clock method measures the current value of time before and after running the function.
+
+Question 1.2:-
+1.Here, we run fork calls on the basis of child and parent processes and then I have used execl which complies 3 kernels parallely in 3 different folders.
+2.Thereafter, similar functions as part 1.1 are used to measure the times required to be measured.
